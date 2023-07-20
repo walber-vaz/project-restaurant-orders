@@ -28,6 +28,20 @@ class InventoryMapping:
     # Req 5.1
 
     def check_recipe_availability(self, recipe: Recipe) -> bool:
+        """
+        Check if all the ingredients in a recipe are available in the
+        inventory.
+
+        Parameters:
+            recipe (Recipe): A dictionary containing the ingredients and their
+            required amounts.
+
+        Returns:
+            bool: True if all the ingredients are available in the inventory
+            and their amounts are sufficient, False otherwise.
+
+        # Req 5.1
+        """
         return all(
             ingredient in self.inventory
             and self.inventory[ingredient] >= amount
@@ -37,6 +51,21 @@ class InventoryMapping:
         # Req 5.2
 
     def consume_recipe(self, recipe: Recipe) -> None:
+        """
+        Consumes a recipe by subtracting the required amounts of ingredients
+        from the inventory.
+
+        Parameters:
+            recipe (Recipe): The recipe to be consumed.
+
+        Raises:
+            ValueError: If the recipe is not available in the inventory.
+
+        Returns:
+            None
+
+        # Req 5.2
+        """
         if not self.check_recipe_availability(recipe):
             raise ValueError("Recipe is not available")
 
