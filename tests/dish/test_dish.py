@@ -44,7 +44,7 @@ def test_dish():
     with pytest.raises((TypeError, ValueError)):
         Dish("Vatapá", -1.0)
 
-    ingredient_vatapa = Ingredient("bacon")
+    ingredient_vatapa = Ingredient("camarão")
     vatapa.add_ingredient_dependency(ingredient_vatapa, 1)
 
     assert ingredient_vatapa in vatapa.get_ingredients()
