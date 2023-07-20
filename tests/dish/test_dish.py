@@ -6,79 +6,46 @@ import pytest
 
 # Req 2
 def test_dish():
-    """
-    Function to test the Dish class.
+    acai = Dish("Açai", 10.0)
+    vatapa = Dish("Vatapá", 15.0)
 
-    This function creates two instances of the Dish class, `mocoto` and
-    `feijoada`, with different names and prices. It then asserts that the
-    `name` and `price` attributes of both instances have the expected values.
+    assert acai.name == "Açai"
+    assert acai.price == 10.0
 
-    Next, it asserts that the hash value of `mocoto` is not equal to the hash
-    value of `feijoada`, and that the hash value of `mocoto` is equal to the
-    hash value of a new instance of the Dish class with the same name and
-    price as `mocoto`. It also asserts that `mocoto` is equal to a new
-    instance of the Dish class with the same name and price as `mocoto`.
+    assert vatapa.name == "Vatapá"
+    assert vatapa.price == 15.0
 
-    The function then performs similar assertions for the `feijoada` instance.
+    assert hash(acai) != hash(vatapa)
+    assert hash(acai) == hash(Dish("Açai", 10.0))
+    assert acai == Dish("Açai", 10.0)
 
-    It asserts that the string representation of `mocoto` is equal to the
-    expected string representation, and does the same for `feijoada`.
+    assert hash(vatapa) != hash(acai)
+    assert hash(vatapa) == hash(Dish("Vatapá", 15.0))
+    assert vatapa == Dish("Vatapá", 15.0)
 
-    The function uses `pytest.raises` to assert that creating a Dish instance
-    with an invalid price raises a `TypeError` or `ValueError` as expected.
+    assert str(acai) == "Dish('Açai', R$10.00)"
+    assert str(vatapa) == "Dish('Vatapá', R$15.00)"
 
-    It creates an instance of the Ingredient class named `ingredient_mocoto`,
-      and adds it as a dependency to `mocoto` with a quantity of 1. It then
-      asserts that `ingredient_mocoto` is in the list of ingredients of
-      `mocoto` and that `Restriction.ANIMAL_DERIVED` is in the list of
-      restrictions of `mocoto`.
+    with pytest.raises((TypeError, ValueError)):
+        Dish("Açai", "preço")  # type: ignore
 
-    Similar assertions are performed for the `feijoada` instance.
+    with pytest.raises((TypeError, ValueError)):
+        Dish("Açai", -1.0)
 
-    This function serves as a comprehensive test for the Dish class and its
-    methods.
-    """
+    ingredient_acai = Ingredient("carne")
+    acai.add_ingredient_dependency(ingredient_acai, 1)
 
-    mocoto = Dish("Mocotó", 30.0)
-    feijoada = Dish("Feijoada", 45.0)
+    assert ingredient_acai in acai.get_ingredients()
+    assert Restriction.ANIMAL_DERIVED in acai.get_restrictions()
 
-    assert mocoto.name == "Mocotó"
-    assert mocoto.price == 30.0
+    with pytest.raises((TypeError, ValueError)):
+        Dish("Vatapá", "preço")  # type: ignore
 
-    assert feijoada.name == "Feijoada"
-    assert feijoada.price == 45.0
+    with pytest.raises((TypeError, ValueError)):
+        Dish("Vatapá", -1.0)
 
-    assert hash(mocoto) != hash(feijoada)
-    assert hash(mocoto) == hash(Dish("Mocotó", 30.0))
-    assert mocoto == Dish("Mocotó", 30.0)
+    ingredient_vatapa = Ingredient("bacon")
+    vatapa.add_ingredient_dependency(ingredient_vatapa, 1)
 
-    assert hash(feijoada) != hash(mocoto)
-    assert hash(feijoada) == hash(Dish("Feijoada", 45.0))
-    assert feijoada == Dish("Feijoada", 45.0)
-
-    assert str(mocoto) == "Dish('Mocotó', R$30.00)"
-    assert str(feijoada) == "Dish('Feijoada', R$45.00)"
-
-    with pytest.raises(TypeError):
-        Dish("Mocotó", "preço")  # type: ignore
-
-    with pytest.raises(ValueError):
-        Dish("Mocotó", -1.0)
-
-    ingredient_mocoto = Ingredient("carne")
-    mocoto.add_ingredient_dependency(ingredient_mocoto, 1)
-
-    assert ingredient_mocoto in mocoto.get_ingredients()
-    assert Restriction.ANIMAL_DERIVED in mocoto.get_restrictions()
-
-    with pytest.raises(TypeError):
-        Dish("Feijoada", "preço")  # type: ignore
-
-    with pytest.raises(ValueError):
-        Dish("Feijoada", -1.0)
-
-    ingredient_feijoada = Ingredient("bacon")
-    feijoada.add_ingredient_dependency(ingredient_feijoada, 1)
-
-    assert ingredient_feijoada in feijoada.get_ingredients()
-    assert Restriction.ANIMAL_DERIVED in feijoada.get_restrictions()
+    assert ingredient_vatapa in vatapa.get_ingredients()
+    assert Restriction.ANIMAL_DERIVED in vatapa.get_restrictions()
