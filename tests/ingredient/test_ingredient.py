@@ -20,16 +20,15 @@ def test_ingredient():
     Returns:
         None
     """
-    frango = Ingredient('frango')
-    ovo = Ingredient('ovo')
-    farinha = Ingredient('farinha')
+    ingredients = ['frango', 'ovo', 'farinha']
+    frango, ovo, farinha = [Ingredient(name) for name in ingredients]
 
     assert farinha != ovo
     assert farinha == farinha
 
-    assert ovo.__hash__() != farinha.__hash__()
-    assert ovo.__hash__() != frango.__hash__()
-    assert ovo.__hash__() == ovo.__hash__()
+    assert hash(ovo) != hash(farinha)
+    assert hash(ovo) != hash(frango)
+    assert hash(ovo) == hash(ovo)
 
     assert repr(ovo) == "Ingredient('ovo')"
     assert ovo.name == 'ovo'
