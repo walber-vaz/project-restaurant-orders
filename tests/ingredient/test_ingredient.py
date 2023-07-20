@@ -6,6 +6,20 @@ from src.models.ingredient import (
 
 # Req 1
 def test_ingredient():
+    """
+    Test the Ingredient class by creating instances and asserting various
+    conditions.
+
+    This function creates instances of the Ingredient class using different
+    names, such as 'frango', 'ovo', and 'farinha'.
+    It then performs assertions to test the behavior of the Ingredient class.
+
+    Parameters:
+        None
+
+    Returns:
+        None
+    """
     frango = Ingredient('frango')
     ovo = Ingredient('ovo')
     farinha = Ingredient('farinha')
