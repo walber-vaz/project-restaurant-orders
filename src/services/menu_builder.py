@@ -26,4 +26,44 @@ class MenuBuilder:
 
     # Req 4
     def get_main_menu(self, restriction=None) -> List[Dict]:
-        pass
+        """
+        Returns the main menu of available dishes based on the given
+        restriction.
+
+        Args:
+            restriction (Optional[str]): A string representing a dietary
+            restriction.
+                Defaults to None.
+
+        Returns:
+            List[Dict]: A list of dictionaries representing each dish in the
+            main menu.
+                Each dictionary contains the following keys:
+                - 'dish_name': The name of the dish (str).
+                - 'ingredients': The ingredients of the dish (List[str]).
+                - 'price': The price of the dish (float).
+                - 'restrictions': The dietary restrictions associated with the
+                dish (List[str]).
+        """
+        menu = []
+
+        for dish in self.menu_data.dishes:
+            if (
+                restriction is None
+                or restriction not in dish.get_restrictions()
+            ):
+                ingredients_available = all(
+                    self.inventory.inventory.get(ingredient, 0) > 0
+                    for ingredient in dish.get_ingredients()
+                )
+                if ingredients_available:
+                    menu.append(
+                        {
+                            'dish_name': dish.name,
+                            'ingredients': dish.get_ingredients(),
+                            'price': dish.price,
+                            'restrictions': dish.get_restrictions(),
+                        }
+                    )
+
+        return menu
